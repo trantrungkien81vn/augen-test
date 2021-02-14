@@ -1,0 +1,33 @@
+spring:
+  profiles: docker
+#logging:
+#  file:
+#    path: /home/kientran/Desktop
+#    name: pratice-test.log
+    
+spring.application.name: kafka-stream-augen
+
+spring.cloud.stream.kafka.binder:
+  brokers: kafka:9092
+spring.cloud.stream.kafka.streams.binder:
+  brokers: kafka:9092
+  serdeError: sendToDlq
+  configuration:
+    commit.interval.ms: 1000
+    default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde 
+    default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+    default.consumer:
+      startOffset: latest
+    applicationId: augen-kafka-stream
+      
+spring.cloud.stream.bindings: 
+  pfo:
+    destination: profit-factor-topic
+  spo:
+    destination: spot-price-topic
+  cpo:
+    destination: composite-price-topic
+  pfi:
+    destination: profit-factor-topic
+  spi:
+    destination: spot-price-topic

@@ -1,0 +1,23 @@
+version: '2'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+   #   KAFKA_ADVERTISED_HOST_NAME: 192.168.60.101
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  partice-test:
+    build: .
+    depends_on: 
+      - zookeeper
+      - kafka
+    ports: 
+      - "8080:8080"
